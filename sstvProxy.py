@@ -1202,8 +1202,12 @@ def load_token():
 	global token
 	if os.path.exists(TOKEN_PATH):
 		with open(TOKEN_PATH, 'r') as fp:
-			token = load(fp)
-			logger.debug("Loaded token %r, expires at %s", token['hash'], token['expires'])
+			try:
+				token = load(fp)
+				logger.debug("Loaded token %r, expires at %s", token['hash'], token['expires'])
+			except Exception:
+				dump_token()
+			
 	else:
 		dump_token()
 
